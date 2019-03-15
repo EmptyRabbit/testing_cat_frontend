@@ -1,10 +1,10 @@
 import React, {Component} from 'react';
-import {Layout, Menu, Breadcrumb} from 'antd';
+import {Layout} from 'antd';
 import Head from './Head/index';
+import Menu from './Menu/index'
 
 const {Header, Content, Footer} = Layout;
 
-const SubMenu = Menu.SubMenu;
 
 class Container extends Component {
     render() {
@@ -13,6 +13,14 @@ class Container extends Component {
                 <Header>
                     <Head/>
                 </Header>
+
+                <Content style={{margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280}}>
+                    <Menu/>
+                </Content>
+
+                <Footer>
+                    Footer
+                </Footer>
             </Layout>
         )
 
