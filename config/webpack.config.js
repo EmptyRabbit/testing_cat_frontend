@@ -73,7 +73,7 @@ module.exports = function (webpackEnv) {
                 loader: MiniCssExtractPlugin.loader,
                 options: Object.assign(
                     {},
-                    shouldUseRelativeAssetPaths ? {publicPath: '../../'} : undefined
+                    shouldUseRelativeAssetPaths ? { publicPath: '../../' } : undefined
                 ),
             },
             {
@@ -289,7 +289,7 @@ module.exports = function (webpackEnv) {
             strictExportPresence: true,
             rules: [
                 // Disable require.ensure as it's not a standard language feature.
-                {parser: {requireEnsure: false}},
+                { parser: { requireEnsure: false } },
 
                 // First, run the linter.
                 // It's important to do this before Babel processes the JS.
@@ -363,13 +363,13 @@ module.exports = function (webpackEnv) {
                                 compact: isEnvProduction,
                             },
                         },
-
                         {
                             test: /\.less$/,
+                            include: /node_modules|antd\.css/,
                             use: [{
                                 loader: 'style-loader',
                             }, {
-                                loader: 'css-loader', // translates CSS into CommonJS
+                                loader: 'css-loader',
                             }, {
                                 loader: 'less-loader', // compiles Less to CSS
                                 options: {
@@ -382,6 +382,28 @@ module.exports = function (webpackEnv) {
                                 },
                             }],
                             // ...other rules
+                        },
+                        {
+                            test: /\.less$/,
+                            exclude: /node_modules|antd\.css/,
+                            use: [{
+                                loader: 'style-loader',
+                            }, {
+                                loader: 'css-loader', // translates CSS into CommonJS
+                                options: {
+                                    modules: true,   // 新增对css modules的支持
+                                }
+                            }, {
+                                loader: 'less-loader', // compiles Less to CSS
+                                options: {
+                                    modifyVars: {
+                                        'primary-color': '#00839d',
+                                        'link-color': '#00839d',
+                                        'border-radius-base': '2px',
+                                    },
+                                    javascriptEnabled: true,
+                                },
+                            }],
                         },
                         // Process any JS outside of the app with Babel.
                         // Unlike the application JS, we only compile the standard ES features.
@@ -396,7 +418,7 @@ module.exports = function (webpackEnv) {
                                 presets: [
                                     [
                                         require.resolve('babel-preset-react-app/dependencies'),
-                                        {helpers: true},
+                                        { helpers: true },
                                     ],
                                 ],
                                 cacheDirectory: true,
