@@ -1,9 +1,10 @@
-import React, {Component} from 'react';
-import {Layout} from 'antd';
+import React, { Component } from 'react';
+import { Layout } from 'antd';
 import Head from './Head/index';
-import Menu from './Menu/index'
+import MenuSide from './Menu/index';
+import { white } from 'ansi-colors';
 
-const {Header, Content, Footer} = Layout;
+const { Header, Content, Sider, Footer } = Layout;
 
 
 class Container extends Component {
@@ -11,16 +12,21 @@ class Container extends Component {
         return (
             <Layout>
                 <Header>
-                    <Head/>
+                    <Head />
                 </Header>
+                <Layout style={{ minHeight: '100vh' }} >
+                    <Sider width={200} >
+                        <MenuSide />
+                    </Sider>
+                    <Layout>
+                        <Content style={{ background: '#fff', padding: 24, margin: 0 }}>
 
-                <Content style={{margin: '24px 16px', padding: 24, background: '#fff', minHeight: 280}}>
-                    <Menu/>
-                </Content>
-
-                <Footer>
-                    Footer
-                </Footer>
+                        </Content>
+                        {/* <Footer >
+                            Ant Design ©2016 Created by Ant UED
+                        </Footer> */}
+                    </Layout>
+                </Layout>
             </Layout>
         )
 
