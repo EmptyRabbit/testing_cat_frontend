@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Icon, Menu } from 'antd';
-import styles from "./index.less";
 const { SubMenu } = Menu;
 
 

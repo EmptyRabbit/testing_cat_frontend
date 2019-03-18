@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Layout } from 'antd';
 import Head from './Head/index';
 import MenuSide from './Menu/index';
-import { white } from 'ansi-colors';
 
 const { Header, Content, Sider, Footer } = Layout;
 
@@ -15,7 +14,7 @@ class Container extends Component {
                     <Head />
                 </Header>
                 <Layout style={{ minHeight: '100vh' }} >
-                    <Sider width={200} >
+                    <Sider width={200} style={{ background: '#9b9b9b' }} >
                         <MenuSide />
                     </Sider>
                     <Layout>
