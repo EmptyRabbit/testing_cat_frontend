@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 import { Layout } from 'antd';
 import Head from './Head/index';
 import MenuSide from './Menu/index';
+import Contents from './Contents/index';
 
-const { Header, Content, Sider, Footer } = Layout;
+const { Header, Content, Sider } = Layout;
 
 
 class Container extends Component {
@@ -19,7 +20,7 @@ class Container extends Component {
                     </Sider>
                     <Layout>
                         <Content style={{ background: '#fff', padding: 24, margin: 0 }}>
-
+                            <Contents />
                         </Content>
                         {/* <Footer >
                             Ant Design ©2016 Created by Ant UED
