@@ -7,22 +7,24 @@ class ApiConfig extends Component {
         return (
             <div style={{ border: '1px solid rgb(235, 236, 236)' }}>
                 <div className={styles.linkconfig}>串联链路</div>
-                
                 <div className={styles.head}>
-                    <div>
+                    <div style={{ width: '5%' }}>
                         <span>icon</span>
                     </div>
-                    <div>
+                    <div style={{ width: '15%' }}>
                         <Input placeholder="输入" style={{ width: '100%', border: '0px' }} />
                     </div>
-                    <div>
+                    <div style={{ width: '15%' }}>
                         <span>icon</span>
                     </div>
-                    <div>
+                    <div style={{ width: '15%' }}>
                         <span>url</span>
                     </div>
-                    <div style={{flex:'0 0 16.68%',position:'relative', width: '100%', float: 'right' }}>
-                        <Button></Button>
+                    <div style={{ width: '50%', }}>
+                        <div style={{ float: 'right' }}>
+                            <Button className={styles.iconButton} icon='delete'></Button>
+                            <Button className={styles.iconButton} icon='down'></Button>
+                        </div>
                     </div>
                 </div>
                 <div style={{ padding: '10px 0 10px 0' }}>
