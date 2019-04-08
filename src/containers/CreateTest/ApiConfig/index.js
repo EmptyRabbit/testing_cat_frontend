@@ -1,34 +1,36 @@
 import React, { Component } from 'react';
-import { Button, Input } from 'antd';
+import { Button, Input, Tabs } from 'antd';
 import styles from "./index.less";
+import BaseConfig from './BaseConfig/index';
+
+const TabPane = Tabs.TabPane;
+
 
 class ApiConfig extends Component {
+    initBase = {
+        name: ""
+    };
+    constructor() {
+        super();
+        this.state = {
+            bases: [this.initBase]
+        }
+    }
+    addBaseConfig = () => {
+        this.setState({ bases: [...this.state.bases, this.initBase] })
+    }
+
     render() {
         return (
             <div style={{ border: '1px solid rgb(235, 236, 236)' }}>
-                <div className={styles.linkconfig}>串联链路</div>
-                <div className={styles.head}>
-                    <div style={{ width: '5%' }}>
-                        <span>icon</span>
-                    </div>
-                    <div style={{ width: '15%' }}>
-                        <Input placeholder="输入" style={{ width: '100%', border: '0px' }} />
-                    </div>
-                    <div style={{ width: '15%' }}>
-                        <span>icon</span>
-                    </div>
-                    <div style={{ width: '15%' }}>
-                        <span>url</span>
-                    </div>
-                    <div style={{ width: '50%', }}>
-                        <div style={{ float: 'right' }}>
-                            <Button className={styles.iconButton} icon='delete'></Button>
-                            <Button className={styles.iconButton} icon='down'></Button>
-                        </div>
-                    </div>
+                <div className={styles.linkconfig}>
+                    串联链路
                 </div>
+                {/* url配置 */}
+                {this.state.bases.map((row, index) => <BaseConfig key={index} />)}
+                {/* 新增url按钮 */}
                 <div style={{ padding: '10px 0 10px 0' }}>
-                    <Button>Primary</Button>
+                    <Button onClick={() => this.addBaseConfig()} >Primary</Button>
                 </div>
             </div >
         )
