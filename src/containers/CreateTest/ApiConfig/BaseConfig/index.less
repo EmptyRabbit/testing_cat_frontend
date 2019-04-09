@@ -1,4 +1,16 @@
 @import "../../../../resource/style/color";
+.outer {
+    margin-top: 1px;
+}
+
+.markGet {
+    border-left: 3px solid @getgreen;
+}
+
+.markPost {
+    border-left: 3px solid @postorange;
+}
+
 .head {
     display: flex;
     flex-direction: row;
@@ -6,6 +18,7 @@
     height: 40px;
     width: 100%;
     border-bottom: 1px solid rgb(235, 236, 236);
+    padding: 0 0 0 10px;
 }
 
 .iconButton {
@@ -13,9 +26,26 @@
     margin: 0 10px 0 0;
 }
 
+.baseMethod {
+    margin: 13px 0 30px 0;
+}
+
+.baseMethod div {
+    display: inline-block;
+}
+
+.baseMethod div label {
+    margin-right: 8px;
+}
+
 .detail {
     background-color: @graywhite;
     box-sizing: border-box;
+}
+
+.star {
+    margin-right: 2px;
+    color: red;
 }
 
 .test {
