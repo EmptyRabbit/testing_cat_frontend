@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Input, Button, Tabs, Select, Icon } from 'antd';
+import { Input, Button, Tabs, Select, Icon, Form } from 'antd';
 import styles from "./index.less";
 const TabPane = Tabs.TabPane;
 const Option = Select.Option;
@@ -53,7 +53,7 @@ class BaseConfig extends Component {
                                     测试url
                                 </div>
                                 <div>
-                                    <Input style={{ height: '80px' }} size='large'></Input>
+                                    <Input type="textarea" style={{ height: '80px' }} size='large'></Input>
                                 </div>
                                 <div className={styles.baseMethod}>
                                     <div>
