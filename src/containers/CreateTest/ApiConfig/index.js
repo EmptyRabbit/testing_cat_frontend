@@ -16,6 +16,7 @@ class ApiConfig extends Component {
             'content': []
         }
     };
+
     constructor() {
         super();
         this.state = {
@@ -28,8 +29,6 @@ class ApiConfig extends Component {
     }
 
     deleteConfig = i => {
-        console.log(i)
-        console.log(this.state.bases)
         this.setState(
             {
                 bases: this.state.bases.filter((row, index) => {
@@ -53,7 +52,14 @@ class ApiConfig extends Component {
                 </div>
                 {/* url配置 */}
                 {this.state.bases.map((row, index) =>
-                    <BaseConfig key={row.key} index={row.key} deleteConfig={this.deleteConfig} />)}
+                    <BaseConfig
+                        key={row.key}
+                        index={row.key}
+                        deleteConfig={this.deleteConfig}
+                        onRef={this.props.onRef}
+                        onDelRef={this.props.onDelRef}
+                    />
+                )}
                 {/* 新增url按钮 */}
                 <div style={{ padding: '10px 0 10px 0' }}>
                     <Button onClick={() => this.addBaseConfig()} >Primary</Button>

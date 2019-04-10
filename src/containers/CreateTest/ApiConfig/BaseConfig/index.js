@@ -1,41 +1,64 @@
 import React, { Component } from 'react';
 import { Input, Button, Tabs, Select, Icon, Form } from 'antd';
 import styles from "./index.less";
+const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
 const Option = Select.Option;
 
-class BaseConfig extends Component {
+class BaseConfigContent extends Component {
     constructor() {
         super();
         this.state = {
             isShowDetail: false
         }
     }
-    handMouseEnter = (e) => {
 
+    componentDidMount() {
+        this.props.onRef(this.props.index, this);
     }
-    handClick = () => {
+
+    componentWillUnmount() {
+        this.props.onDelRef(this.props.index);
+    }
+
+    handClick = (e) => {
         this.setState({
             isShowDetail: !this.state.isShowDetail
         })
     }
 
     render() {
+        const { getFieldDecorator } = this.props.form;
         const { isShowDetail } = this.state;
+
         return (
             <div className={`${styles.markGet} ${styles.outer}`}>
-                <div className={styles.head} onMouseEnter={this.handMouseEnter.bind(this)}>
-                    <div style={{ width: '5%' }}>
-                        <Icon type="plus"></Icon>
+                <div className={styles.head}>
+                    <div style={{ width: '5%', height: '100%', flex: '0 0 5%' }}>
+                        <div >
+                            <Icon type="plus"></Icon>
+                        </div>
                     </div>
-                    <div style={{ width: '20%' }}>
-                        <Input placeholder="请输入API名称" style={{ width: '100%', border: '0px' }} />
+                    <div style={{ widht: '20%' }}>
+                        <Form layout="inline">
+                            <FormItem>
+                                {
+                                    getFieldDecorator("name" + this.props.index,
+                                        {
+                                            rules: [{ required: true, message: '请输入API名称' }]
+                                        })
+                                        (<Input placeholder="请输入API名称" style={{ width: '100%', border: '0px' }} />)
+                                }
+                            </FormItem>
+                        </Form>
                     </div>
-                    <div style={{ width: '10%' }}>
+                    {/* <div style={{ width: '10%' }}>
                         <span></span>
-                    </div>
-                    <div style={{ width: '15%' }} onClick={() => this.handClick()}>
-                        <span> 请配置压测api</span>
+                    </div> */}
+                    <div style={{ width: '15%' }} onClick={this.handClick}>
+                        <div>
+                            <span> 请配置压测api</span>
+                        </div>
                     </div>
                     <div style={{ width: '50%', }}>
                         <div style={{ float: 'right' }}>
@@ -48,13 +71,20 @@ class BaseConfig extends Component {
                     <div style={{ padding: '10px 3% 0 7%' }}>
                         <Tabs defaultActiveKey="1">
                             <TabPane tab="基本请求信息" key="1">
-                                <div style={{ margin: '0 0 10px 0' }}>
-                                    <span className={styles.star}>*</span>
-                                    测试url
-                                </div>
-                                <div>
-                                    <Input type="textarea" style={{ height: '80px' }} size='large'></Input>
-                                </div>
+                                <Form>
+                                    <FormItem label="测试URL">
+                                        {getFieldDecorator("url" + this.props.index, {
+                                            rules: [
+                                                {
+                                                    type: 'url', message: '请输入有效的URL',
+                                                },
+                                                {
+                                                    required: true, message: '请输入URL',
+                                                }
+                                            ],
+                                        })(<Input type="textarea" style={{ height: '80px' }} size='large'></Input>)}
+                                    </FormItem>
+                                </Form>
                                 <div className={styles.baseMethod}>
                                     <div>
                                         <label>请求方式</label>
@@ -83,4 +113,5 @@ class BaseConfig extends Component {
     }
 }
 
+const BaseConfig = Form.create({})(BaseConfigContent);
 export default BaseConfig;
