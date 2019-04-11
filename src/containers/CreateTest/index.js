@@ -9,23 +9,32 @@ const FormItem = Form.Item;
 class CreateTest extends Component {
     apiChildren = {};
 
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.form.validateFields((err, values) => {
-            if (!err) {
-                console.log('Received values of form: ', values);
-            }
-        });
-
-        // 子组件的form
+    //遍历校验各个config获取配置数据
+    getSaveData = () => {
+        let data = [];
         for (let apiChild in this.apiChildren) {
-            let obj = this.apiChildren[apiChild]
+            let obj = this.apiChildren[apiChild];
             obj.props.form.validateFields((err, values) => {
                 if (!err) {
-                    console.log('Received values of form: ', values);
+                    data.push(Object.assign({ key: obj.props.index }, values))
                 }
             });
         }
+
+        return data
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        let data = {};
+        let name = '';
+        this.props.form.validateFields((err, values) => {
+            if (!err) {
+                name = values.testName;
+                data = this.getSaveData();
+            }
+        });
+        console.log(data);
 
     }
 
@@ -50,7 +59,7 @@ class CreateTest extends Component {
                 <div style={{ margin: '15px 0 0 0' }}>
                     <Form layout="inline">
                         <FormItem label="场景名">
-                            {getFieldDecorator('name', {
+                            {getFieldDecorator('testName', {
                                 rules: [
                                     {
                                         required: true, message: '请输入场景名',
