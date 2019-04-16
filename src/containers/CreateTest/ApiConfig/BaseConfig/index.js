@@ -9,7 +9,9 @@ class BaseConfigContent extends Component {
     constructor() {
         super();
         this.state = {
-            isShowDetail: false
+            isShowDetail: false,
+            method: 'GET',
+            url: '请配置压测API'
         }
     }
 
@@ -21,6 +23,18 @@ class BaseConfigContent extends Component {
         this.props.onDelRef(this.props.index);
     }
 
+    handleChange = (e) => {
+        console.log(e);
+        // let test = e.target;
+        // console.log(test);
+        // this.setState({ method: e });
+    }
+
+    handleOnUrlChange = (e) => {
+        this.setState({ url: e });
+    }
+
+
     handClick = (e) => {
         this.setState({
             isShowDetail: !this.state.isShowDetail
@@ -28,9 +42,9 @@ class BaseConfigContent extends Component {
     }
 
     render() {
-        const { getFieldDecorator } = this.props.form;
+        const { getFieldDecorator, getFieldsError } = this.props.form;
         const { isShowDetail } = this.state;
-        const method = 'GET';
+        const { method, url } = this.state;
 
         return (
             <div className={` ${styles.outer} ${method === 'GET' ? styles.markGet : styles.markPost}`}>
@@ -43,9 +57,9 @@ class BaseConfigContent extends Component {
                             <Form layout="inline">
                                 <FormItem style={{ margin: 0 }}>
                                     {
-                                        getFieldDecorator("name_" + this.props.index,
+                                        getFieldDecorator("name",
                                             {
-                                                rules: [{ required: true, message: '请输入API名称' }]
+                                                rules: [{ required: true, message: '请输入API名称' }],
                                             })(
                                                 <Input
                                                     placeholder="请输入API名称"
@@ -59,7 +73,7 @@ class BaseConfigContent extends Component {
                             <span>{method}</span>
                         </div>
                         <div style={{ width: '15%' }} onClick={this.handClick}>
-                            <span>请配置压测api</span>
+                            <span>{url}</span>
                         </div>
                         <div style={{ width: '50%', }}>
                             <div style={{ float: 'right' }}>
@@ -69,13 +83,14 @@ class BaseConfigContent extends Component {
                         </div>
                     </div>
                 </div>
+                {/* API具体配置TAB */}
                 <div className={styles.detail} style={{ display: isShowDetail ? 'block' : 'none' }}>
                     <div style={{ padding: '10px 3% 0 7%' }}>
                         <Tabs defaultActiveKey="1">
                             <TabPane tab="基本请求信息" key="1">
                                 <Form>
                                     <FormItem label="测试URL">
-                                        {getFieldDecorator("url_" + this.props.index, {
+                                        {getFieldDecorator("url", {
                                             rules: [
                                                 { type: 'url', message: '请输入有效的URL' },
                                                 { required: true, message: '请输入URL' }
@@ -92,20 +107,24 @@ class BaseConfigContent extends Component {
                                 <div className={styles.baseMethod}>
                                     <Form>
                                         <FormItem label="请求方式" style={{ marginRight: '30px' }}>
-                                            {getFieldDecorator("method_" + this.props.index, { initialValue: 'GET' })(
-                                                <Select>
+                                            {getFieldDecorator("method", {
+                                                initialValue: 'GET',
+                                            })(
+                                                <Select onChange={(e) => this.handleChange(e)}>
                                                     <Option value="GET">GET</Option>
                                                     <Option value="POST">POST</Option>
                                                 </Select>
                                             )}
                                         </FormItem>
                                         <FormItem label="超时时间">
-                                            {getFieldDecorator("timeout_" + this.props.index, {
+                                            {getFieldDecorator("timeout", {
                                                 initialValue: 5000,
                                                 rules: [
                                                     { required: true, message: '超时时间不可空' }
                                                 ],
-                                            })(<InputNumber placeholder='ms'></InputNumber>)}
+                                            })
+                                                (<InputNumber placeholder='ms'>
+                                                </InputNumber>)}
                                         </FormItem>
                                     </Form>
                                 </div>

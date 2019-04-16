@@ -62,7 +62,7 @@ class ApiConfig extends Component {
                 )}
                 {/* 新增url按钮 */}
                 <div style={{ padding: '10px 0 10px 0' }}>
-                    <Button onClick={() => this.addBaseConfig()} >Primary</Button>
+                    <Button onClick={this.addBaseConfig} >Primary</Button>
                 </div>
             </div >
         )
