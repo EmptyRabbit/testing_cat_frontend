@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
-import { Input, InputNumber, Button, Tabs, Select, Icon, Form } from 'antd';
+import { Input, InputNumber, Button, Tabs, Select, Icon, Form, Radio } from 'antd';
 import styles from "./index.less";
+import { FORMERR } from 'dns';
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
 const Option = Select.Option;
@@ -9,6 +10,8 @@ class BaseConfigContent extends Component {
     constructor() {
         super();
         this.state = {
+            isShowBody: true,
+            isShowRaw: false,
             isShowDetail: false,
             method: 'GET',
             url: '请配置压测API'
@@ -23,17 +26,29 @@ class BaseConfigContent extends Component {
         this.props.onDelRef(this.props.index);
     }
 
+    handleSelChange = (value, name) => {
+        let { isShowbody } = this.state;
+        isShowbody = value === 'POST' ? true : false;
+
+        this.setState({
+            [name]: value,
+            isShowBody: isShowbody,
+        });
+    }
+
+    handleTypeChange = (e) => {
+        let { isShowRaw } = this.state;
+        isShowRaw = e.target.value === 'raw' ? true : false;
+
+        this.setState({
+            isShowRaw: isShowRaw,
+        });
+    }
+
     handleChange = (e) => {
-        console.log(e);
-        // let test = e.target;
-        // console.log(test);
-        // this.setState({ method: e });
+        const { target } = e;
+        this.setState({ [target.id]: [target.value || '请配置压测API'] })
     }
-
-    handleOnUrlChange = (e) => {
-        this.setState({ url: e });
-    }
-
 
     handClick = (e) => {
         this.setState({
@@ -42,12 +57,122 @@ class BaseConfigContent extends Component {
     }
 
     render() {
-        const { getFieldDecorator, getFieldsError } = this.props.form;
+        const { getFieldDecorator } = this.props.form;
         const { isShowDetail } = this.state;
         const { method, url } = this.state;
 
+        const headerContent = (
+            <Form>
+                <FormItem>
+                    {getFieldDecorator("header", {
+                        rules: [
+                            { required: true, message: '请输入Header' }
+                        ],
+                    })(
+                        <Input
+                            type="textarea"
+                            style={{ height: '80px' }}
+                            size='large'>
+                        </Input>
+                    )}
+                </FormItem>
+            </Form>
+        )
+
+        const baseConfigUrl = (
+            <Form>
+                <FormItem label="测试URL">
+                    {getFieldDecorator("url", {
+                        rules: [
+                            { type: 'url', message: '请输入有效的URL' },
+                            { required: true, message: '请输入URL' }
+                        ],
+                    })(
+                        <Input
+                            type="textarea"
+                            style={{ height: '80px' }}
+                            onChange={(e) => this.handleChange(e, 'url')}
+                            size='large'>
+                        </Input>
+                    )}
+                </FormItem>
+            </Form>
+        )
+
+        const baseConfigMethod = (
+            <Form>
+                <FormItem label="请求方式" style={{ marginRight: '30px' }}>
+                    {getFieldDecorator("method", {
+                        initialValue: 'GET',
+                    })(
+                        <Select onChange={(e) => this.handleSelChange(e, 'method')}>
+                            <Option value="GET">GET</Option>
+                            <Option value="POST">POST</Option>
+                        </Select>
+                    )}
+                </FormItem>
+                <FormItem label="超时时间">
+                    {getFieldDecorator("timeout", {
+                        initialValue: 5000,
+                        rules: [
+                            { required: true, message: '超时时间不可空' }
+                        ],
+                    })(
+                        <InputNumber placeholder='ms'>
+                        </InputNumber>
+                    )}
+                </FormItem>
+            </Form>
+        )
+
+        const bodyType = (
+            <Form>
+                <FormItem label="Content-Type" style={{ marginRight: '100px' }}>
+                    {getFieldDecorator('content_type', {
+                        initialValue: 'x-www-form-urlencode',
+                    })(
+                        <Radio.Group onChange={(e) => this.handleTypeChange(e)}>
+                            <Radio value="x-www-form-urlencode">x-www-form-urlencode</Radio>
+                            <Radio value="raw">raw</Radio>
+                        </Radio.Group>
+                    )}
+                </FormItem>
+                {
+                    this.state.isShowRaw &&
+                    <FormItem>
+                        {getFieldDecorator('raw_type', {
+                            initialValue: 'JSON',
+                        })(
+                            <Select style={{ width: '200px' }}>
+                                <Option value="JSON">JSON(application/json)</Option>
+                                <Option value="TEXT">TEXT(text/plain)</Option>
+                            </Select>
+                        )}
+                    </FormItem>
+                }
+            </Form>
+        )
+        const bodyContent = (
+            <Form>
+                <FormItem >
+                    {getFieldDecorator("body_content", {
+                        rules: [
+                            { required: true, message: '请输入body内容' }
+                        ],
+                    })(
+                        <Input
+                            type="textarea"
+                            style={{ height: '80px', width: '100%' }}
+                            size='large'>
+                        </Input>
+                    )}
+                </FormItem>
+            </Form >
+        )
+
+
         return (
-            <div className={` ${styles.outer} ${method === 'GET' ? styles.markGet : styles.markPost}`}>
+            <div className={`${styles.outer} ${method === 'GET' ? styles.markGet : styles.markPost}`}>
                 <div className={styles.middle}>
                     <div className={styles.head}>
                         <div style={{ width: '5%' }}>
@@ -87,51 +212,25 @@ class BaseConfigContent extends Component {
                 <div className={styles.detail} style={{ display: isShowDetail ? 'block' : 'none' }}>
                     <div style={{ padding: '10px 3% 0 7%' }}>
                         <Tabs defaultActiveKey="1">
+                            {/* 基本请求信息 */}
                             <TabPane tab="基本请求信息" key="1">
-                                <Form>
-                                    <FormItem label="测试URL">
-                                        {getFieldDecorator("url", {
-                                            rules: [
-                                                { type: 'url', message: '请输入有效的URL' },
-                                                { required: true, message: '请输入URL' }
-                                            ],
-                                        })(
-                                            <Input
-                                                type="textarea"
-                                                style={{ height: '80px' }}
-                                                size='large'>
-                                            </Input>
-                                        )}
-                                    </FormItem>
-                                </Form>
+                                {baseConfigUrl}
                                 <div className={styles.baseMethod}>
-                                    <Form>
-                                        <FormItem label="请求方式" style={{ marginRight: '30px' }}>
-                                            {getFieldDecorator("method", {
-                                                initialValue: 'GET',
-                                            })(
-                                                <Select onChange={(e) => this.handleChange(e)}>
-                                                    <Option value="GET">GET</Option>
-                                                    <Option value="POST">POST</Option>
-                                                </Select>
-                                            )}
-                                        </FormItem>
-                                        <FormItem label="超时时间">
-                                            {getFieldDecorator("timeout", {
-                                                initialValue: 5000,
-                                                rules: [
-                                                    { required: true, message: '超时时间不可空' }
-                                                ],
-                                            })
-                                                (<InputNumber placeholder='ms'>
-                                                </InputNumber>)}
-                                        </FormItem>
-                                    </Form>
+                                    {baseConfigMethod}
                                 </div>
                             </TabPane>
-                            <TabPane tab="Header定义" key="2">其他配置</TabPane>
-                            <TabPane tab="body定义" disabled key="4"></TabPane>
-                            <TabPane tab="Tab 3" disabled key="3">Tab 3</TabPane>
+                            {/* body */}
+                            {this.state.isShowBody &&
+                                < TabPane tab="body定义" key="2">
+                                    <div className={styles.baseMethod} style={{ margin: 0 }}>
+                                        {bodyType}
+                                    </div>
+                                    {bodyContent}
+                                </TabPane>}
+                            {/* header */}
+                            <TabPane tab="Header定义" key="3">
+                                {headerContent}
+                            </TabPane>
                         </Tabs>
                     </div>
                 </div>
