@@ -10,7 +10,7 @@ class BaseConfigContent extends Component {
     constructor() {
         super();
         this.state = {
-            isShowBody: true,
+            isShowBody: false,
             isShowRaw: false,
             isShowDetail: false,
             method: 'GET',
