@@ -58,7 +58,7 @@ class BaseConfigContent extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
-        const { isShowDetail } = this.state;
+        const { isShowDetail, isShowBody } = this.state;
         const { method, url } = this.state;
 
         const headerContent = (
@@ -125,50 +125,65 @@ class BaseConfigContent extends Component {
             </Form>
         )
 
-        const bodyType = (
-            <Form>
-                <FormItem label="Content-Type" style={{ margin: '0 100px 10px 0' }}>
-                    {getFieldDecorator('content_type', {
-                        initialValue: 'x-www-form-urlencode',
-                    })(
-                        <Radio.Group onChange={(e) => this.handleTypeChange(e)}>
-                            <Radio value="x-www-form-urlencode">x-www-form-urlencode</Radio>
-                            <Radio value="raw">raw</Radio>
-                        </Radio.Group>
-                    )}
-                </FormItem>
-                {
-                    this.state.isShowRaw &&
-                    <FormItem>
-                        {getFieldDecorator('raw_type', {
-                            initialValue: 'JSON',
+        let bodyContentOuter = null;
+        if (isShowBody) {
+            const bodyType = (
+                <Form>
+                    <FormItem label="Content-Type" style={{ margin: '0 100px 10px 0' }}>
+                        {getFieldDecorator('content_type', {
+                            initialValue: 'x-www-form-urlencode',
                         })(
-                            <Select style={{ width: '200px' }}>
-                                <Option value="JSON">JSON(application/json)</Option>
-                                <Option value="TEXT">TEXT(text/plain)</Option>
-                            </Select>
+                            <Radio.Group onChange={(e) => this.handleTypeChange(e)}>
+                                <Radio value="x-www-form-urlencode">x-www-form-urlencode</Radio>
+                                <Radio value="raw">raw</Radio>
+                            </Radio.Group>
                         )}
                     </FormItem>
-                }
-            </Form>
-        )
-        const bodyContent = (
-            <Form>
-                <FormItem >
-                    {getFieldDecorator("body_content", {
-                        rules: [
-                            { required: true, message: '请输入body内容' }
-                        ],
-                    })(
-                        <Input
-                            type="textarea"
-                            style={{ height: '80px', width: '100%' }}
-                            size='large'>
-                        </Input>
-                    )}
-                </FormItem>
-            </Form >
-        )
+                    {
+                        this.state.isShowRaw &&
+                        <FormItem>
+                            {getFieldDecorator('raw_type', {
+                                initialValue: 'JSON',
+                            })(
+                                <Select style={{ width: '200px' }}>
+                                    <Option value="JSON">JSON(application/json)</Option>
+                                    <Option value="TEXT">TEXT(text/plain)</Option>
+                                </Select>
+                            )}
+                        </FormItem>
+                    }
+                </Form>
+            )
+
+            const bodyContent = (
+                <Form>
+                    <FormItem >
+                        {getFieldDecorator("body_content", {
+                            rules: [
+                                { required: true, message: '请输入body内容' }
+                            ],
+                        })(
+                            <Input
+                                type="textarea"
+                                style={{ height: '80px', width: '100%' }}
+                                size='large'>
+                            </Input>
+                        )}
+                    </FormItem>
+                </Form >
+            )
+
+            const bodyContentTab = (
+                < TabPane tab="body定义" key="2">
+                    <div className={styles.baseMethod} style={{ margin: 0 }}>
+                        {bodyType}
+                    </div>
+                    {bodyContent}
+                </TabPane>
+            )
+
+            bodyContentOuter = bodyContentTab;
+        }
 
 
         return (
@@ -182,7 +197,7 @@ class BaseConfigContent extends Component {
                             <Form layout="inline">
                                 <FormItem style={{ margin: 0 }}>
                                     {
-                                        getFieldDecorator("name",
+                                        getFieldDecorator("apiname",
                                             {
                                                 rules: [{ required: true, message: '请输入API名称' }],
                                             })(
@@ -220,13 +235,7 @@ class BaseConfigContent extends Component {
                                 </div>
                             </TabPane>
                             {/* body */}
-                            {this.state.isShowBody &&
-                                < TabPane tab="body定义" key="2">
-                                    <div className={styles.baseMethod} style={{ margin: 0 }}>
-                                        {bodyType}
-                                    </div>
-                                    {bodyContent}
-                                </TabPane>}
+                            {bodyContentOuter}
                             {/* header */}
                             <TabPane tab="Header定义" key="3">
                                 {headerContent}
