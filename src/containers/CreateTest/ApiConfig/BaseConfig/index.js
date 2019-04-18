@@ -127,7 +127,7 @@ class BaseConfigContent extends Component {
 
         const bodyType = (
             <Form>
-                <FormItem label="Content-Type" style={{ marginRight: '100px' }}>
+                <FormItem label="Content-Type" style={{ margin: '0 100px 10px 0' }}>
                     {getFieldDecorator('content_type', {
                         initialValue: 'x-www-form-urlencode',
                     })(
