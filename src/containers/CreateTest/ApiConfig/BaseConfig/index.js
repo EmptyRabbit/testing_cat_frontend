@@ -209,7 +209,7 @@ class BaseConfigContent extends Component {
                                 </FormItem>
                             </Form>
                         </div>
-                        <div style={{ width: '10%' }}>
+                        <div style={{ width: '10%' }} className={method === 'GET' ? styles.get : styles.post} >
                             <span>{method}</span>
                         </div>
                         <div style={{ width: '15%' }} onClick={this.handClick}>

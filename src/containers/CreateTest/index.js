@@ -77,7 +77,7 @@ class CreateTest extends Component {
                                 onDelRef={this.onDelRef}
                             />
                         </TabPane>
-                        <TabPane tab="其他配置" key="2">其他配置</TabPane>
+                        <TabPane tab="定时配置" key="2">其他配置</TabPane>
                         <TabPane tab="Tab 3" disabled key="3">Tab 3</TabPane>
                     </Tabs>
                 </div>
