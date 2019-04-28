@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Icon, Menu } from 'antd';
+import { Link } from 'react-router-dom';
 const { SubMenu } = Menu;
 
 
@@ -8,15 +9,20 @@ class MenuSide extends Component {
         return (
             <Menu
                 mode="inline"
-                defaultSelectedKeys={['1']}
+                defaultSelectedKeys={['11']}
                 defaultOpenKeys={['sub1']}
                 style={{ height: '100%' }}
             >
-                <SubMenu key="sub1" title={<span><Icon type="form" />subnav 1</span>}>
-                    <Menu.Item key="1">option1</Menu.Item>
-                    <Menu.Item key="2">option2</Menu.Item>
-                    <Menu.Item key="3">option3</Menu.Item>
-                    <Menu.Item key="4">option4</Menu.Item>
+                <SubMenu key="sub1" title={<span><Icon type="form" />创建测试</span>}>
+                    <Menu.Item key="11">快速测试
+                        <Link to={'/'}></Link>
+                    </Menu.Item>
+                </SubMenu>
+                <SubMenu key="sub2" title={<span><Icon type="form" />测试管理</span>}>
+                    <Menu.Item key="21">测试场景
+                    </Menu.Item>
+                    <Menu.Item key="22">测试报告
+                    </Menu.Item>
                 </SubMenu>
             </Menu>
         )

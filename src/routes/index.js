@@ -1,16 +1,15 @@
 import React from 'react';
-import {BrowserRouter as Router, Route} from 'react-router-dom';
-import App from '../App';
-import Container from '../component/Container';
+import { Route } from 'react-router-dom';
+import Contents from '../component/Container/Contents';
+import Test from '../containers/Detail';
 
 
 const Routes = () => {
     return (
-        <Router>
-            <div>
-                <Route exact path="/" component={Container}/>
-            </div>
-        </Router>
+        <div>
+            <Route exact path="/" component={Contents} />
+            <Route path="/detail" component={Test} />
+        </div>
     )
 };
 export default Routes;
