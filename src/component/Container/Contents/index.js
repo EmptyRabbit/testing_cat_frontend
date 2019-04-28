@@ -1,19 +1,10 @@
 import React, { Component } from 'react';
 import { Layout } from 'antd';
 import MenuSide from '../Menu/index';
+import { Route } from 'react-router-dom';
 import WrapCreateTest from '../../../containers/CreateTest/index';
 
-const { Header, Content, Sider } = Layout;
-
-class InnerContent extends Component {
-    render() {
-        return (
-            <div style={{ position: 'relative' }}>
-                <WrapCreateTest />
-            </div>
-        );
-    }
-}
+const { Content, Sider } = Layout;
 
 class Contents extends Component {
     render() {
@@ -24,7 +15,11 @@ class Contents extends Component {
                 </Sider>
                 <Layout>
                     <Content style={{ background: '#fff', padding: 24, margin: 0 }}>
-                        <InnerContent />
+                        <div>
+                            <Route path="/create" component={WrapCreateTest} />
+                            <Route path="/scene" component={() => { return (<div>test1</div>) }} />
+                            <Route path="/report" component={() => { return (<div>test2</div>) }} />
+                        </div>
                     </Content>
                 </Layout>
             </Layout >
