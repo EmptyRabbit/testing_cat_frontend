@@ -65,8 +65,9 @@ class BaseConfigContent extends Component {
             <Form>
                 <FormItem>
                     {getFieldDecorator("header", {
+                        initialValue: "{}",
                         rules: [
-                            { required: true, message: '请输入Header' }
+                            { message: '请输入Header' }
                         ],
                     })(
                         <Input

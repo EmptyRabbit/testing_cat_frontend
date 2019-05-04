@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Form, Input, Button } from 'antd';
 import { Tabs } from 'antd';
 import ApiConfig from './ApiConfig/index';
-import styles from "./index.less";
+import { urlCng } from '../../api/urlConfig';
+
 const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;
 
@@ -20,22 +21,36 @@ class CreateTest extends Component {
                 }
             });
         }
-
-        return data
+        return data;
     }
 
     handleSubmit = (e) => {
         e.preventDefault();
-        let data = {};
+        let datas = {};
         let name = '';
         this.props.form.validateFields((err, values) => {
             if (!err) {
                 name = values.testName;
-                data = this.getSaveData();
+                datas = this.getSaveData();
+                //若有数据，保存
+                if (datas.length > 0) {
+                    console.log(datas);
+                    fetch(urlCng.cases.create, {
+                        method: 'POST',
+                        mode: 'cors',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/x-www-form-urlencoded',
+                        },
+                        body: JSON.stringify(datas),
+                    })
+                        .then(res => res.json())
+                        .then(data => {
+                            console.log(data)
+                        })
+                }
             }
         });
-        console.log(data);
-
     }
 
     onRef = (index, ref) => {
