@@ -47,6 +47,7 @@ class ApiConfig extends Component {
 
     componentDidMount() {
         this.setState({
+            maxBaseKey: 0,
             routes: [
                 {
                     key: 0,
@@ -69,14 +70,32 @@ class ApiConfig extends Component {
         })
     }
     addApiConfig = () => {
-
-    }
-    
-    addBaseConfig = routeId => {
         let routes = [...this.state.routes];
-        const lastBases = routes[routes.length - 1].bases;
+        const route = {
+            key: routes[routes.length - 1].key + 1,
+            bases: [
+                {
+                    key: 0,
+                    name: "",
+                    url: "",
+                    method: "GET",
+                    timeout: 5000,
+                    header: [],
+                    body: {
+                        'content-type': 'x-www-form-urlencode',
+                        'content': []
+                    }
+                }
+            ]
+        }
+        this.setState({
+            routes: [...routes, { ...route }]
+        })
+    }
+
+    addBaseConfig = routeId => {
         const initBase = {
-            key: lastBases[lastBases.length - 1].key + 1,
+            key: this.state.maxBaseKey + 1,
             name: "",
             url: "",
             method: "GET",
@@ -87,6 +106,7 @@ class ApiConfig extends Component {
                 'content': []
             }
         };
+        let routes = [...this.state.routes];
         const route = this.state.routes.filter((row, index) => row['key'] === routeId)
         const bases = [...route[0].bases, { ...initBase }]
         routes.map((row, index) => {
@@ -94,7 +114,10 @@ class ApiConfig extends Component {
                 row.bases = bases;
             }
         })
-        this.setState({ routes: routes });
+        this.setState({
+            maxBaseKey: this.state.maxBaseKey + 1,
+            routes: routes
+        });
     }
 
     deleteConfig = (key, routeId) => {
