@@ -8,19 +8,48 @@ const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;
 
 class CreateTest extends Component {
-    apiChildren = {};
+
+    /* 
+    apiChilren结构：
+    [
+        {
+            key:0,
+            bases:{
+                0:baseConfig1,
+                2:baseConfig2
+            }
+        }
+    ] 
+    */
+
+    apiChildren = []
 
     //遍历校验各个config获取配置数据
     getSaveData = () => {
         let data = [];
-        for (let apiChild in this.apiChildren) {
-            let obj = this.apiChildren[apiChild];
-            obj.props.form.validateFields((err, values) => {
-                if (!err) {
-                    data.push(Object.assign({ key: obj.props.index }, values))
-                }
-            });
-        }
+        this.apiChildren.map((row, index) => {
+            let route = { key: row.key, bases: [] }
+            for (let base in row.bases) {
+                let obj = row.bases[base];
+                obj.props.form.validateFields((err, values) => {
+                    if (!err) {
+                        route.bases.push(Object.assign({ key: obj.props.index }, values))
+                    }
+                });
+            }
+
+            if (route.bases.length > 0) {
+                data.push(route);
+            }
+        })
+        // for (let apiChild in this.apiChildren) {
+        //     let obj = this.apiChildren[apiChild];
+        //     obj.props.form.validateFields((err, values) => {
+        //         if (!err) {
+        //             data.push(Object.assign({ key: obj.props.index }, values))
+        //         }
+        //     });
+        // }
         return data;
     }
 
@@ -53,12 +82,20 @@ class CreateTest extends Component {
         });
     }
 
-    onRef = (index, ref) => {
-        this.apiChildren = Object.assign(this.apiChildren, { [index]: ref });
+    onRef = (routeId, index, ref) => {
+        let routeChild = this.apiChildren.filter((row, index) => row.key === routeId)
+        let baseChild = { key: routeId, bases: { [index]: ref } }
+        if (routeChild.length === 0) {
+            this.apiChildren.push(baseChild);
+        }
+        else {
+            routeChild[0].bases = { ...routeChild[0].bases, ...{ [index]: ref } }
+        }
     }
 
-    onDelRef = (index) => {
-        delete this.apiChildren[index]
+    onDelRef = (routeId, index) => {
+        let routeChild = this.apiChildren.filter((row, index) => row.key === routeId)
+        delete routeChild[0].bases[index]
     }
 
     render() {

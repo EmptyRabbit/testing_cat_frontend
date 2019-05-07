@@ -19,11 +19,11 @@ class BaseConfigContent extends Component {
     }
 
     componentDidMount() {
-        this.props.onRef(this.props.index, this);
+        this.props.onRef(this.props.routeId, this.props.index, this);
     }
 
     componentWillUnmount() {
-        this.props.onDelRef(this.props.index);
+        this.props.onDelRef(this.props.routeId, this.props.index);
     }
 
     handleSelChange = (value, name) => {
@@ -218,7 +218,7 @@ class BaseConfigContent extends Component {
                         </div>
                         <div style={{ width: '50%', }}>
                             <div style={{ float: 'right' }}>
-                                <Button className={styles.iconButton} icon='delete' onClick={() => this.props.deleteConfig(this.props.index,this.props.routeId)}></Button>
+                                <Button className={styles.iconButton} icon='delete' onClick={() => this.props.deleteConfig(this.props.index, this.props.routeId)}></Button>
                                 <Button className={styles.iconButton} icon='down' onClick={this.handClick}></Button>
                             </div>
                         </div>
