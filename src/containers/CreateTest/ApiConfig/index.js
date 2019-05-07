@@ -73,20 +73,7 @@ class ApiConfig extends Component {
         let routes = [...this.state.routes];
         const route = {
             key: routes[routes.length - 1].key + 1,
-            bases: [
-                {
-                    key: 0,
-                    name: "",
-                    url: "",
-                    method: "GET",
-                    timeout: 5000,
-                    header: [],
-                    body: {
-                        'content-type': 'x-www-form-urlencode',
-                        'content': []
-                    }
-                }
-            ]
+            bases: []
         }
         this.setState({
             routes: [...routes, { ...route }]

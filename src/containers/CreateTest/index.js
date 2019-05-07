@@ -34,20 +34,20 @@ class CreateTest extends Component {
                 datas = this.getSaveData();
                 //若有数据，保存
                 if (datas.length > 0) {
-                    console.log(datas);
-                    fetch(urlCng.cases.create, {
-                        method: 'POST',
-                        mode: 'cors',
-                        headers: {
-                            'Accept': 'application/json',
-                            'Content-Type': 'application/x-www-form-urlencoded',
-                        },
-                        body: JSON.stringify(datas),
-                    })
-                        .then(res => res.json())
-                        .then(data => {
-                            console.log(data)
-                        })
+                    console.log(datas)
+                    // fetch(urlCng.cases.create, {
+                    //     method: 'POST',
+                    //     mode: 'cors',
+                    //     headers: {
+                    //         'Accept': 'application/json',
+                    //         'Content-Type': 'application/x-www-form-urlencoded',
+                    //     },
+                    //     body: JSON.stringify(datas),
+                    // })
+                    //     .then(res => res.json())
+                    //     .then(data => {
+                    //         console.log(data)
+                    //     })
                 }
             }
         });
