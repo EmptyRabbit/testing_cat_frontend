@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, Input, Button } from 'antd';
 import { Tabs } from 'antd';
 import ApiConfig from './ApiConfig/index';
-import { urlCng } from '../../api/urlConfig';
+import { postTestConfig } from '../../api/index';
 
 const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;
@@ -42,41 +42,20 @@ class CreateTest extends Component {
                 data.push(route);
             }
         })
-        // for (let apiChild in this.apiChildren) {
-        //     let obj = this.apiChildren[apiChild];
-        //     obj.props.form.validateFields((err, values) => {
-        //         if (!err) {
-        //             data.push(Object.assign({ key: obj.props.index }, values))
-        //         }
-        //     });
-        // }
         return data;
     }
 
-    handleSubmit = (e) => {
+    save = (e) => {
         e.preventDefault();
-        let datas = {};
-        let name = '';
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                name = values.testName;
-                datas = this.getSaveData();
+                let name = values.testName;
+                let datas = this.getSaveData();
                 //若有数据，保存
                 if (datas.length > 0) {
-                    console.log(datas)
-                    // fetch(urlCng.cases.create, {
-                    //     method: 'POST',
-                    //     mode: 'cors',
-                    //     headers: {
-                    //         'Accept': 'application/json',
-                    //         'Content-Type': 'application/x-www-form-urlencoded',
-                    //     },
-                    //     body: JSON.stringify(datas),
-                    // })
-                    //     .then(res => res.json())
-                    //     .then(data => {
-                    //         console.log(data)
-                    //     })
+                    postTestConfig({ name: name, data: datas }).then(data => {
+                        console.log(data)
+                    })
                 }
             }
         });
@@ -99,6 +78,7 @@ class CreateTest extends Component {
     }
 
     render() {
+        console.log(this.props)
         const { getFieldDecorator } = this.props.form;
         return (
             <div style={{ position: 'relative' }}>
@@ -106,7 +86,7 @@ class CreateTest extends Component {
                     <div>
                         <span style={{ fontSize: 16, lineHeight: '3em' }}>创建测试</span>
                         <div style={{ position: 'absolute', top: '6px', right: '0px' }}>
-                            <Button onClick={this.handleSubmit}>保存</Button>
+                            <Button onClick={this.save}>保存</Button>
                         </div>
                     </div>
                     <div style={{ margin: '15px 0 0 0' }}>

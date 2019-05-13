@@ -3,10 +3,12 @@ import { Layout } from 'antd';
 import MenuSide from '../Menu/index';
 import { Route } from 'react-router-dom';
 import WrapCreateTest from '../../../containers/CreateTest/index';
+import Scene from '../../../containers/Scene/index';
 
 const { Content, Sider } = Layout;
 
 class Contents extends Component {
+
     render() {
         return (
             <Layout style={{ minHeight: '100vh' }} >
@@ -16,8 +18,10 @@ class Contents extends Component {
                 <Layout>
                     <Content style={{ background: '#fff', padding: 24, margin: 0 }}>
                         <div>
-                            <Route path="/create" component={WrapCreateTest} />
-                            <Route path="/scene" component={() => { return (<div>test1</div>) }} />
+                            <Route path="/create/:projectID?"
+                                component={() => { return (<WrapCreateTest loading={false} />) }}
+                            />
+                            <Route path="/scene" component={() => { return (<Scene />) }} />
                             <Route path="/report" component={() => { return (<div>test2</div>) }} />
                         </div>
                     </Content>
