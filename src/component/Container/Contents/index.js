@@ -10,6 +10,7 @@ const { Content, Sider } = Layout;
 class Contents extends Component {
 
     render() {
+        console.log('contents', this.props);
         return (
             <Layout style={{ minHeight: '100vh' }} >
                 <Sider width={200} style={{ background: '#9b9b9b' }} >
@@ -17,12 +18,10 @@ class Contents extends Component {
                 </Sider>
                 <Layout>
                     <Content style={{ background: '#fff', padding: 24, margin: 0 }}>
-                        <div>
-                            <Route path="/create/:projectID?"
-                                component={() => { return (<WrapCreateTest loading={false} />) }}
-                            />
-                            <Route path="/scene" component={() => { return (<Scene />) }} />
-                            <Route path="/report" component={() => { return (<div>test2</div>) }} />
+                        <div style={{ height: '100%' }}>
+                            <Route path="/test/create/:projectID?" component={() => { return (<WrapCreateTest />) }} />
+                            <Route path="/test/scene" component={() => { return (<Scene />) }} />
+                            <Route path="/test/report" component={() => { return (<div>test2</div>) }} />
                         </div>
                     </Content>
                 </Layout>

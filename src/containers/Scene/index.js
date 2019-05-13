@@ -30,6 +30,7 @@ export default class Screen extends Component {
     }
 
     render() {
+        console.log('scene',this.props)
         const { columns } = this.state.data;
         const { datas } = this.state.data;
 

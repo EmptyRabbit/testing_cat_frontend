@@ -3,6 +3,7 @@ import { Form, Input, Button } from 'antd';
 import { Tabs } from 'antd';
 import ApiConfig from './ApiConfig/index';
 import { postTestConfig } from '../../api/index';
+import { withRouter } from 'react-router-dom';
 
 const TabPane = Tabs.TabPane;
 const FormItem = Form.Item;
@@ -120,6 +121,6 @@ class CreateTest extends Component {
     }
 }
 
-const WrapCreateTest = Form.create({})(CreateTest);
+const WrapCreateTest = withRouter(Form.create({})(CreateTest));
 
 export default WrapCreateTest;

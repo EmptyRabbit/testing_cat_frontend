@@ -15,15 +15,15 @@ class MenuSide extends Component {
             >
                 <SubMenu key="sub1" title={<span><Icon type="form" />创建测试</span>}>
                     <Menu.Item key="11">快速测试
-                        <Link to={'/create'}></Link>
+                        <Link to={'/test/create'}></Link>
                     </Menu.Item>
                 </SubMenu>
                 <SubMenu key="sub2" title={<span><Icon type="form" />测试管理</span>}>
                     <Menu.Item key="21">测试场景
-                        <Link to={'/scene'}></Link>
+                        <Link to={'/test/scene'}></Link>
                     </Menu.Item>
                     <Menu.Item key="22">测试报告
-                        <Link to={'/report'}></Link>
+                        <Link to={'/test/report'}></Link>
                     </Menu.Item>
                 </SubMenu>
             </Menu>

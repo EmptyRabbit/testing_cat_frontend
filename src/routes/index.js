@@ -8,9 +8,7 @@ const Routes = () => {
     return (
         <div>
             <Route exact path="/" component={Contents} />
-            <Route path="/create/:projectID?" component={Contents} />
-            <Route path="/report" component={Contents} />
-            <Route path="/scene" component={Contents} />
+            <Route path="/test" component={Contents} />
             <Route path="/detail" component={Test} />
         </div>
     )
