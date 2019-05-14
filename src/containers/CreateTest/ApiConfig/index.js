@@ -35,18 +35,13 @@ const RouteConfig = (props) => {
 
 class ApiConfig extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
+        // this.state = {
+        //     MaxBaseKey: 0,
+        //     routes: [],
+        // }
         this.state = {
-            routes: [{
-                key: 0,
-                bases: []
-            }]
-        }
-    }
-
-    componentDidMount() {
-        this.setState({
             maxBaseKey: 0,
             routes: [
                 {
@@ -67,8 +62,35 @@ class ApiConfig extends Component {
                     ]
                 }
             ]
-        })
+        }
+
     }
+
+    // componentDidMount() {
+    //     this.setState({
+    //         maxBaseKey: 0,
+    //         routes: [
+    //             {
+    //                 key: 0,
+    //                 bases: [
+    //                     {
+    //                         key: 0,
+    //                         name: "",
+    //                         url: "",
+    //                         method: "GET",
+    //                         timeout: 5000,
+    //                         header: [],
+    //                         body: {
+    //                             'content-type': 'x-www-form-urlencode',
+    //                             'content': []
+    //                         }
+    //                     }
+    //                 ]
+    //             }
+    //         ]
+    //     })
+    // }
+
     addApiConfig = () => {
         let routes = [...this.state.routes];
         const route = {
@@ -137,7 +159,7 @@ class ApiConfig extends Component {
     }
 
     render() {
-        
+
         return (
             <div>
                 {this.renderApiConfig()}

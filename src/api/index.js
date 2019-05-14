@@ -12,8 +12,19 @@ export function postTestConfig(params) {
     }).then(res => res.json())
 }
 
-export function getTestList(params) {
-    return fetch(urlCng.cases.scene + params, {
+export function getTestConfig(params) {
+    return fetch(urlCng.cases.scene + params + '/', {
+        method: 'GET',
+        headers: {
+            'Accept': 'application/json',
+        },
+        mode: 'cors',
+    }).then(res => res.json())
+}
+
+
+export function getSceneList(params) {
+    return fetch(urlCng.cases.scene, {
         method: 'GET',
         headers: {
             'Accept': 'application/json',

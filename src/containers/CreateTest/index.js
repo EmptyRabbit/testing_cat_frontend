@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Form, Input, Button } from 'antd';
 import { Tabs } from 'antd';
 import ApiConfig from './ApiConfig/index';
-import { postTestConfig } from '../../api/index';
+import { postTestConfig, getTestConfig } from '../../api/index';
 import { withRouter } from 'react-router-dom';
 
 const TabPane = Tabs.TabPane;
@@ -24,6 +24,24 @@ class CreateTest extends Component {
     */
 
     apiChildren = []
+
+    constructor() {
+        super();
+        this.state = {
+            name: '',
+            projectID: -1,
+            data: []
+        };
+    }
+
+    componentDidMount() {
+        const { projectID } = this.props.match.params;
+        if (projectID != undefined) {
+            getTestConfig(projectID).then(data => {
+                this.setState({ ...data });
+            })
+        }
+    }
 
     //遍历校验各个config获取配置数据
     getSaveData = () => {
@@ -50,13 +68,14 @@ class CreateTest extends Component {
         e.preventDefault();
         this.props.form.validateFields((err, values) => {
             if (!err) {
-                let name = values.testName;
+                let name = values.projectName;
                 let datas = this.getSaveData();
                 //若有数据，保存
                 if (datas.length > 0) {
-                    postTestConfig({ name: name, data: datas }).then(data => {
-                        console.log(data)
-                    })
+                    console.log(datas);
+                    // postTestConfig({ name: name, data: datas }).then(data => {
+                    //     console.log(data)
+                    // })
                 }
             }
         });
@@ -79,7 +98,6 @@ class CreateTest extends Component {
     }
 
     render() {
-        console.log(this.props)
         const { getFieldDecorator } = this.props.form;
         return (
             <div style={{ position: 'relative' }}>
@@ -93,12 +111,13 @@ class CreateTest extends Component {
                     <div style={{ margin: '15px 0 0 0' }}>
                         <Form layout="inline">
                             <FormItem label="场景名">
-                                {getFieldDecorator('testName', {
+                                {getFieldDecorator('projectName', {
                                     rules: [
                                         {
                                             required: true, message: '请输入场景名',
                                         }
                                     ],
+                                    initialValue: this.state.name,
                                 })(<Input placeholder="请输入场景名" style={{ minWidth: 350, maxWidth: 350 }} />)}
                             </FormItem>
                         </Form>
@@ -109,6 +128,7 @@ class CreateTest extends Component {
                                 <ApiConfig
                                     onRef={this.onRef}
                                     onDelRef={this.onDelRef}
+                                    data={this.state.data}
                                 />
                             </TabPane>
                             <TabPane tab="定时配置" key="2">其他配置</TabPane>

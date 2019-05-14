@@ -10,7 +10,6 @@ const { Content, Sider } = Layout;
 class Contents extends Component {
 
     render() {
-        console.log('contents', this.props);
         return (
             <Layout style={{ minHeight: '100vh' }} >
                 <Sider width={200} style={{ background: '#9b9b9b' }} >

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Input, Table } from 'antd';
 import styles from "./index.less";
-import { getTestList } from '../../api/index';
+import { getSceneList } from '../../api/index';
 import { Link } from 'react-router-dom';
 
 
@@ -14,14 +14,14 @@ export default class Screen extends Component {
     }
 
     componentWillMount() {
-        getTestList('').then(data => {
+        getSceneList('').then(data => {
             data.columns.push({
                 'title': '操作',
                 'dataIndex': 'operate',
                 'key': 'operate',
                 'render': (Text, Record) => (
                     <span>
-                        <Link to={'/create/' + '2/'} activeClassName='active'>XXXX</Link>
+                        <Link to={'/test/create/' + '12' + '/'} activeClassName='active'>XXXX</Link>
                     </span>
                 )
             })
@@ -30,7 +30,6 @@ export default class Screen extends Component {
     }
 
     render() {
-        console.log('scene',this.props)
         const { columns } = this.state.data;
         const { datas } = this.state.data;
 
