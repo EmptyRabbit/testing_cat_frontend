@@ -30,17 +30,84 @@ class CreateTest extends Component {
         this.state = {
             name: '',
             projectID: -1,
-            data: []
+            maxBaseKey: 0,
+            data: [
+                {
+                    key: 0,
+                    bases: [
+                        {
+                            key: 0,
+                            name: "",
+                            url: "",
+                            method: "GET",
+                            timeout: 5000,
+                            header: [],
+                            body: {
+                                'content-type': 'x-www-form-urlencode',
+                                'content': []
+                            }
+                        }
+                    ]
+                }
+            ]
         };
     }
 
-    componentDidMount() {
+    componentWillMount() {
         const { projectID } = this.props.match.params;
         if (projectID != undefined) {
             getTestConfig(projectID).then(data => {
                 this.setState({ ...data });
             })
         }
+    }
+
+    addApiConfig = () => {
+        let routes = [...this.state.data];
+        const route = {
+            key: routes[routes.length - 1].key + 1,
+            bases: []
+        }
+        this.setState({
+            routes: [...routes, { ...route }]
+        })
+    }
+
+    deleteConfig = (key, routeId) => {
+        let routes = [...this.state.data];
+        routes.map((row, index) => {
+            if (row.key === routeId) {
+                row.bases = row.bases.filter((r, i) => r.key != key);
+            }
+        })
+        this.setState({ data: routes })
+    }
+
+    addBaseConfig = routeId => {
+        const initBase = {
+            key: this.state.maxBaseKey + 1,
+            name: "",
+            url: "",
+            method: "GET",
+            timeout: 5000,
+            header: [],
+            body: {
+                'content-type': 'x-www-form-urlencode',
+                'content': []
+            }
+        };
+        let routes = [...this.state.data];
+        const route = this.state.data.filter((row, index) => row['key'] === routeId)
+        const bases = [...route[0].bases, { ...initBase }]
+        routes.map((row, index) => {
+            if (row.key === routeId) {
+                row.bases = bases;
+            }
+        })
+        this.setState({
+            maxBaseKey: this.state.maxBaseKey + 1,
+            data: routes
+        });
     }
 
     //遍历校验各个config获取配置数据
@@ -99,6 +166,7 @@ class CreateTest extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
+        console.log('test', this.state.data)
         return (
             <div style={{ position: 'relative' }}>
                 <div >

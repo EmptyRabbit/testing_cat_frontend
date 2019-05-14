@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { Input, InputNumber, Button, Tabs, Select, Icon, Form, Radio } from 'antd';
 import styles from "./index.less";
-import { FORMERR } from 'dns';
 const FormItem = Form.Item;
 const TabPane = Tabs.TabPane;
 const Option = Select.Option;
@@ -65,7 +64,7 @@ class BaseConfigContent extends Component {
             <Form>
                 <FormItem>
                     {getFieldDecorator("header", {
-                        initialValue: "{}",
+                        initialValue: this.props.data.header,
                         rules: [
                             { message: '请输入Header' }
                         ],
@@ -88,6 +87,7 @@ class BaseConfigContent extends Component {
                             { type: 'url', message: '请输入有效的URL' },
                             { required: true, message: '请输入URL' }
                         ],
+                        initialValue: this.props.data.url,
                     })(
                         <Input
                             type="textarea"
@@ -104,7 +104,7 @@ class BaseConfigContent extends Component {
             <Form>
                 <FormItem label="请求方式" style={{ marginRight: '30px' }}>
                     {getFieldDecorator("method", {
-                        initialValue: 'GET',
+                        initialValue: this.props.data.method,
                     })(
                         <Select onChange={(e) => this.handleSelChange(e, 'method')}>
                             <Option value="GET">GET</Option>
@@ -114,7 +114,7 @@ class BaseConfigContent extends Component {
                 </FormItem>
                 <FormItem label="超时时间">
                     {getFieldDecorator("timeout", {
-                        initialValue: 5000,
+                        initialValue: this.props.data.timeout,
                         rules: [
                             { required: true, message: '超时时间不可空' }
                         ],
@@ -201,6 +201,7 @@ class BaseConfigContent extends Component {
                                         getFieldDecorator("apiname",
                                             {
                                                 rules: [{ required: true, message: '请输入API名称' }],
+                                                initialValue: this.props.data.apiname,
                                             })(
                                                 <Input
                                                     placeholder="请输入API名称"

@@ -17,6 +17,7 @@ const RouteConfig = (props) => {
             {/* url配置 */}
             {props.bases.map((row, index) =>
                 <BaseConfig
+                    data={row}
                     routeId={props.index}
                     key={row.key}
                     index={row.key}
@@ -35,123 +36,18 @@ const RouteConfig = (props) => {
 
 class ApiConfig extends Component {
 
-    constructor(props) {
-        super(props);
-        // this.state = {
-        //     MaxBaseKey: 0,
-        //     routes: [],
-        // }
-        this.state = {
-            maxBaseKey: 0,
-            routes: [
-                {
-                    key: 0,
-                    bases: [
-                        {
-                            key: 0,
-                            name: "",
-                            url: "",
-                            method: "GET",
-                            timeout: 5000,
-                            header: [],
-                            body: {
-                                'content-type': 'x-www-form-urlencode',
-                                'content': []
-                            }
-                        }
-                    ]
-                }
-            ]
-        }
-
-    }
-
-    // componentDidMount() {
-    //     this.setState({
-    //         maxBaseKey: 0,
-    //         routes: [
-    //             {
-    //                 key: 0,
-    //                 bases: [
-    //                     {
-    //                         key: 0,
-    //                         name: "",
-    //                         url: "",
-    //                         method: "GET",
-    //                         timeout: 5000,
-    //                         header: [],
-    //                         body: {
-    //                             'content-type': 'x-www-form-urlencode',
-    //                             'content': []
-    //                         }
-    //                     }
-    //                 ]
-    //             }
-    //         ]
-    //     })
-    // }
-
-    addApiConfig = () => {
-        let routes = [...this.state.routes];
-        const route = {
-            key: routes[routes.length - 1].key + 1,
-            bases: []
-        }
-        this.setState({
-            routes: [...routes, { ...route }]
-        })
-    }
-
-    addBaseConfig = routeId => {
-        const initBase = {
-            key: this.state.maxBaseKey + 1,
-            name: "",
-            url: "",
-            method: "GET",
-            timeout: 5000,
-            header: [],
-            body: {
-                'content-type': 'x-www-form-urlencode',
-                'content': []
-            }
-        };
-        let routes = [...this.state.routes];
-        const route = this.state.routes.filter((row, index) => row['key'] === routeId)
-        const bases = [...route[0].bases, { ...initBase }]
-        routes.map((row, index) => {
-            if (row.key === routeId) {
-                row.bases = bases;
-            }
-        })
-        this.setState({
-            maxBaseKey: this.state.maxBaseKey + 1,
-            routes: routes
-        });
-    }
-
-    deleteConfig = (key, routeId) => {
-        let routes = [...this.state.routes];
-        routes.map((row, index) => {
-            if (row.key === routeId) {
-                row.bases = row.bases.filter((r, i) => r.key != key);
-            }
-        })
-        this.setState({ routes: routes })
-
-    }
-
     renderApiConfig = () => {
         return (
             <div>
-                {this.state.routes.map((row, index) =>
+                {this.props.data.map((row, index) =>
                     (<RouteConfig
                         key={row.key}
                         index={row.key}
                         bases={row.bases}
-                        deleteConfig={this.deleteConfig}
+                        deleteConfig={this.props.deleteConfig}
                         onRef={this.props.onRef}
                         onDelRef={this.props.onDelRef}
-                        addBaseConfig={this.addBaseConfig}
+                        addBaseConfig={this.props.addBaseConfig}
                     />)
                 )}
             </div>
@@ -159,12 +55,11 @@ class ApiConfig extends Component {
     }
 
     render() {
-
         return (
             <div>
                 {this.renderApiConfig()}
                 <div style={{ width: '100%', textAlign: 'center' }}>
-                    <div onClick={this.addApiConfig}>
+                    <div onClick={this.props.addApiConfig}>
                         <span>+添加串联链路</span>
                     </div>
                 </div>
