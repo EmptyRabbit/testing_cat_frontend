@@ -22,6 +22,7 @@ const RouteConfig = (props) => {
                     key={row.key}
                     index={row.key}
                     deleteConfig={props.deleteConfig}
+                    addBaseConfig={props.addBaseConfig}
                     onRef={props.onRef}
                     onDelRef={props.onDelRef}
                 />

@@ -69,7 +69,7 @@ class CreateTest extends Component {
             bases: []
         }
         this.setState({
-            routes: [...routes, { ...route }]
+            data: [...routes, { ...route }]
         })
     }
 
@@ -166,7 +166,6 @@ class CreateTest extends Component {
 
     render() {
         const { getFieldDecorator } = this.props.form;
-        console.log('test', this.state.data)
         return (
             <div style={{ position: 'relative' }}>
                 <div >
@@ -197,6 +196,9 @@ class CreateTest extends Component {
                                     onRef={this.onRef}
                                     onDelRef={this.onDelRef}
                                     data={this.state.data}
+                                    addBaseConfig={this.addBaseConfig}
+                                    deleteConfig={this.deleteConfig}
+                                    addApiConfig={this.addApiConfig}
                                 />
                             </TabPane>
                             <TabPane tab="定时配置" key="2">其他配置</TabPane>

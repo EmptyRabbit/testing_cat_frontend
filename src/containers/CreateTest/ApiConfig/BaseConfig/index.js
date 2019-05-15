@@ -6,14 +6,14 @@ const TabPane = Tabs.TabPane;
 const Option = Select.Option;
 
 class BaseConfigContent extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             isShowBody: false,
             isShowRaw: false,
             isShowDetail: false,
-            method: 'GET',
-            url: '请配置压测API'
+            method: props.data.method,
+            url: props.data.url || '请配置URL'
         }
     }
 
@@ -46,7 +46,7 @@ class BaseConfigContent extends Component {
 
     handleChange = (e) => {
         const { target } = e;
-        this.setState({ [target.id]: [target.value || '请配置压测API'] })
+        this.setState({ [target.id]: [target.value || '请配置URL'] })
     }
 
     handClick = (e) => {
