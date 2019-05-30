@@ -40,19 +40,17 @@ class ApiConfig extends Component {
     render() {
         return (
             <div>
-                <div>
-                    {this.props.data.map((row, index) =>
-                        (<RouteConfig
-                            key={row.key}
-                            index={row.key}
-                            bases={row.bases}
-                            deleteConfig={this.props.deleteConfig}
-                            onRef={this.props.onRef}
-                            onDelRef={this.props.onDelRef}
-                            addBaseConfig={this.props.addBaseConfig}
-                        />)
-                    )}
-                </div>
+                {this.props.data.map((row, index) =>
+                    (<RouteConfig
+                        key={row.key}
+                        index={row.key}
+                        bases={row.bases}
+                        deleteConfig={this.props.deleteConfig}
+                        onRef={this.props.onRef}
+                        onDelRef={this.props.onDelRef}
+                        addBaseConfig={this.props.addBaseConfig}
+                    />)
+                )}
                 <div className={styles.addroute}>
                     <div onClick={this.props.addApiConfig}>
                         <span>+添加串联链路</span>
