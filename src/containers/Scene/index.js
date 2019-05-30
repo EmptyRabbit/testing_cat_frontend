@@ -21,7 +21,7 @@ export default class Screen extends Component {
                 'key': 'operate',
                 'render': (Text, Record) => (
                     <span>
-                        <Link to={'/test/create/' + '12' + '/'} activeClassName='active'>XXXX</Link>
+                        <Link to={'/test/create/' + Record.id + '/'} activeClassName='active'>编辑</Link>
                     </span>
                 )
             })

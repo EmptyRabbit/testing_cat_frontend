@@ -5,7 +5,7 @@ import BaseConfig from './BaseConfig/index';
 
 const RouteConfig = (props) => {
     return (
-        <div style={{ border: '1px solid rgb(235, 236, 236)', margin: '0 0 10px 0' }}>
+        <div className={styles.route}>
             <div className={styles.linkconfig}>
                 <div style={{ width: '40px' }}>
                     <Icon type="plus"></Icon>
@@ -14,7 +14,7 @@ const RouteConfig = (props) => {
                     <span>串联链路</span>
                 </div>
             </div>
-            {/* url配置 */}
+            {/* api配置 */}
             {props.bases.map((row, index) =>
                 <BaseConfig
                     data={row}
@@ -27,8 +27,8 @@ const RouteConfig = (props) => {
                     onDelRef={props.onDelRef}
                 />
             )}
-            {/* 新增url按钮 */}
-            <div style={{ padding: '10px 0 10px 0' }}>
+            {/* 新增api按钮 */}
+            <div className={styles.addapi}>
                 <Button onClick={() => props.addBaseConfig(props.index)} >新增</Button>
             </div>
         </div >
@@ -37,29 +37,23 @@ const RouteConfig = (props) => {
 
 class ApiConfig extends Component {
 
-    renderApiConfig = () => {
-        return (
-            <div>
-                {this.props.data.map((row, index) =>
-                    (<RouteConfig
-                        key={row.key}
-                        index={row.key}
-                        bases={row.bases}
-                        deleteConfig={this.props.deleteConfig}
-                        onRef={this.props.onRef}
-                        onDelRef={this.props.onDelRef}
-                        addBaseConfig={this.props.addBaseConfig}
-                    />)
-                )}
-            </div>
-        )
-    }
-
     render() {
         return (
             <div>
-                {this.renderApiConfig()}
-                <div style={{ width: '100%', textAlign: 'center' }}>
+                <div>
+                    {this.props.data.map((row, index) =>
+                        (<RouteConfig
+                            key={row.key}
+                            index={row.key}
+                            bases={row.bases}
+                            deleteConfig={this.props.deleteConfig}
+                            onRef={this.props.onRef}
+                            onDelRef={this.props.onDelRef}
+                            addBaseConfig={this.props.addBaseConfig}
+                        />)
+                    )}
+                </div>
+                <div className={styles.addroute}>
                     <div onClick={this.props.addApiConfig}>
                         <span>+添加串联链路</span>
                     </div>

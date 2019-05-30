@@ -29,7 +29,6 @@ class CreateTest extends Component {
         super();
         this.state = {
             name: '',
-            projectID: -1,
             maxBaseKey: 0,
             data: [
                 {
@@ -113,13 +112,18 @@ class CreateTest extends Component {
     //遍历校验各个config获取配置数据
     getSaveData = () => {
         let data = [];
+        let isFetch = true;
         this.apiChildren.map((row, index) => {
             let route = { key: row.key, bases: [] }
             for (let base in row.bases) {
                 let obj = row.bases[base];
+                // eslint-disable-next-line no-loop-func
                 obj.props.form.validateFields((err, values) => {
                     if (!err) {
                         route.bases.push(Object.assign({ key: obj.props.index }, values))
+                    }
+                    else {
+                        isFetch = false;
                     }
                 });
             }
@@ -128,6 +132,10 @@ class CreateTest extends Component {
                 data.push(route);
             }
         })
+
+        if (!isFetch) {
+            data = [];
+        }
         return data;
     }
 
@@ -139,10 +147,9 @@ class CreateTest extends Component {
                 let datas = this.getSaveData();
                 //若有数据，保存
                 if (datas.length > 0) {
-                    console.log(datas);
-                    // postTestConfig({ name: name, data: datas }).then(data => {
-                    //     console.log(data)
-                    // })
+                    postTestConfig({ projectID: this.state.projectID, name: name, data: datas }).then(data => {
+                        console.log(data)
+                    })
                 }
             }
         });
