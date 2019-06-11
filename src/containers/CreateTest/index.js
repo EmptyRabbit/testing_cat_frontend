@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Form, Input, Button } from 'antd';
 import { Tabs } from 'antd';
-import ApiConfig from './ApiConfig/index';
+import CaseConfig from './CaseConfig/index';
 import { postTestConfig, getTestConfig } from '../../api/index';
 import { withRouter } from 'react-router-dom';
 import styles from "./index.less";
@@ -62,7 +62,7 @@ class CreateTest extends Component {
         }
     }
 
-    addApiConfig = () => {
+    addRouteConfig = () => {
         let routes = [...this.state.data];
         const route = {
             key: routes[routes.length - 1].key + 1,
@@ -97,13 +97,9 @@ class CreateTest extends Component {
             }
         };
         let routes = [...this.state.data];
-        const route = this.state.data.filter((row, index) => row['key'] === routeId)
-        const bases = [...route[0].bases, { ...initBase }]
-        routes.map((row, index) => {
-            if (row.key === routeId) {
-                row.bases = bases;
-            }
-        })
+        let route = routes.filter((row, index) => row['key'] === routeId)
+        route[0].bases = [...route[0].bases, { ...initBase }]
+
         this.setState({
             maxBaseKey: this.state.maxBaseKey + 1,
             data: routes
@@ -198,13 +194,13 @@ class CreateTest extends Component {
                 <div>
                     <Tabs className={styles.blank} defaultActiveKey="1">
                         <TabPane tab="场景配置" key="1">
-                            <ApiConfig
+                            <CaseConfig
                                 onRef={this.onRef}
                                 onDelRef={this.onDelRef}
                                 data={this.state.data}
                                 addBaseConfig={this.addBaseConfig}
                                 deleteConfig={this.deleteConfig}
-                                addApiConfig={this.addApiConfig}
+                                addRouteConfig={this.addRouteConfig}
                             />
                         </TabPane>
                         <TabPane tab="定时配置" key="2">其他配置</TabPane>

@@ -35,7 +35,7 @@ const RouteConfig = (props) => {
     )
 }
 
-class ApiConfig extends Component {
+class CaseConfig extends Component {
 
     render() {
         return (
@@ -52,7 +52,7 @@ class ApiConfig extends Component {
                     />)
                 )}
                 <div className={styles.addroute}>
-                    <div onClick={this.props.addApiConfig}>
+                    <div onClick={this.props.addRouteConfig}>
                         <span>+添加串联链路</span>
                     </div>
                 </div>
@@ -61,4 +61,4 @@ class ApiConfig extends Component {
     }
 };
 
-export default ApiConfig;
+export default CaseConfig;
